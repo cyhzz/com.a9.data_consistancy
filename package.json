@@ -1,0 +1,17 @@
+{
+  "name": "com.a9.data_consistancy",
+  "version": "1.0.1",
+  "description": "DataConsistancy",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cyhzz/com.a9.data_cosistancy.git"
+  },
+  "author": "A9019",
+  "keywords": [
+    "git",
+    "editor"
+  ],
+  "displayName": "A9 DataConsistancy",
+  "unity": "2020.3"
+}
