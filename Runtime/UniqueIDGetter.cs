@@ -31,7 +31,7 @@ namespace Com.A9.DataConsistancy
             wechat_code2open_id_address = w2o;
         }
 
-#if UNITY_WEBGL
+#if UNITY_WEBGL&&!UNITY_EDITOR
         public void GetUniqueID(Action<string> succ, Action<string> fail, Action complete = null)
         {
             WX.InitSDK((c) =>
