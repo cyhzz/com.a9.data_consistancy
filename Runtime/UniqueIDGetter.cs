@@ -18,8 +18,6 @@ namespace Com.A9.DataConsistancy
 
     public class UniqueIDGetter : IUniqueIDGetter
     {
-        GetUserInfoSuccessCallbackResult session;
-        WXUserInfoResponse session2;
         string guid;
         public bool force_local;
         public string wechat_code2open_id_address;
@@ -32,6 +30,8 @@ namespace Com.A9.DataConsistancy
         }
 
 #if UNITY_WEBGL&&!UNITY_EDITOR
+        GetUserInfoSuccessCallbackResult session;
+        WXUserInfoResponse session2;
         public void GetUniqueID(Action<string> succ, Action<string> fail, Action complete = null)
         {
             WX.InitSDK((c) =>
