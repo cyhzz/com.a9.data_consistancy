@@ -207,7 +207,7 @@ namespace Com.A9.DataConsistancy
         }
 
 #else
-        public IEnumerator GetUniqueID(Action<string> succ=null, Action<string> fail=null, Action complete = null)
+        public void GetUniqueID(Action<string> succ = null, Action<string> fail = null, Action complete = null)
         {
             if (string.IsNullOrEmpty(guid) == false)
             {
