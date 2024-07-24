@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Com.A9.A9019;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,29 +22,63 @@ namespace Com.A9.DataConsistancy
         WXUserInfoResponse session2;
         string guid;
         public bool force_local;
+        public string wechat_code2open_id_address;
         bool infoFlag = false;
+
+        public UniqueIDGetter(bool fl = false, string w2o = null)
+        {
+            force_local = fl;
+            wechat_code2open_id_address = w2o;
+        }
 
 #if UNITY_WEBGL
         public void GetUniqueID(Action<string> succ, Action<string> fail, Action complete = null)
         {
             WX.InitSDK((c) =>
             {
-                GetWXCode(() =>
+                LoginOption login = new LoginOption();
+                login.success = (e) =>
                 {
-                    if (session != null)
-                    {
-                        succ?.Invoke(session.userInfo.nickName);
-                    }
-                    else if (session2 != null)
-                    {
-                        succ?.Invoke(session2.userInfo.nickName);
-                    }
-                    else
-                    {
-                        fail?.Invoke("no session");
-                    }
+                    // succ?.Invoke(e.code);
+                    CodeSucc(e.code, succ, fail, complete);
+                };
+                login.fail = (e) =>
+                {
                     complete?.Invoke();
-                });
+                    fail?.Invoke(e.errMsg);
+                };
+                WX.Login(login);
+                // GetWXCode(() =>
+                // {
+                //     if (session != null)
+                //     {
+                //         // succ?.Invoke(session.userInfo.nickName);
+                //         CodeSucc(session2.c)
+                //     }
+                //     else if (session2 != null)
+                //     {
+                //         // succ?.Invoke(session2.userInfo.nickName);
+                //     }
+                //     else
+                //     {
+                //         fail?.Invoke("no session");
+                //     }
+                //     complete?.Invoke();
+                // });
+            });
+        }
+
+        void CodeSucc(string code, Action<string> succ, Action<string> fail, Action complete)
+        {
+            NetworkManager.instance.SendRequest(wechat_code2open_id_address, new { code = code }, false, (res) =>
+            {
+                Debug.Log("code2open_id: " + res);
+                succ?.Invoke(res);
+                complete?.Invoke();
+            }, () =>
+            {
+                fail?.Invoke("network error");
+                complete?.Invoke();
             });
         }
 
@@ -137,13 +172,11 @@ namespace Com.A9.DataConsistancy
                 {
                     Debug.Log("获取用户信息成功(API): " + JsonUtility.ToJson(res.userInfo, true));
                     session = res;
+                    complete?.Invoke();
                 },
                 fail = (err) =>
                 {
                     Debug.Log("获取用户信息失败(API): " + JsonUtility.ToJson(err, true));
-                },
-                complete = (res) =>
-                {
                     complete?.Invoke();
                 }
             });
@@ -161,14 +194,15 @@ namespace Com.A9.DataConsistancy
                 {
                     Debug.Log("userinfo: " + JsonUtility.ToJson(res.userInfo, true));
                     session2 = res;
+                    complete?.Invoke();
                 }
                 else
                 {
                     Debug.Log("用户拒绝获取个人信息");
+                    complete?.Invoke();
                 }
                 btn.Hide();
                 Debug.Log("已隐藏热区");
-                complete?.Invoke();
             });
         }
 

@@ -134,28 +134,7 @@ namespace Com.A9.DataConsistancy
         public string guid;
 
         public List<DataEntry> data_entries = new List<DataEntry>();
-        public string born_time = "1990-1-1";
-        public string last_login_time;
-        public int today_second;
         public bool initialized;
-
-        [JsonIgnore]
-        public int refresh_hr = 5;
-        [JsonIgnore]
-        public int Age
-        {
-            get
-            {
-                var birthdate = Convert.ToDateTime(born_time);
-                DateTime now = DateTime.Now;
-                int age = now.Year - birthdate.Year;
-                if (now.Month < birthdate.Month || (now.Month == birthdate.Month && now.Day < birthdate.Day))
-                {
-                    age--;
-                }
-                return age < 0 ? 0 : age;
-            }
-        }
 
         public static DateTime IdCardtoDate(string cardno)
         {
@@ -183,26 +162,6 @@ namespace Com.A9.DataConsistancy
         public PlayerData(string guid)
         {
             this.guid = guid;
-            if (Application.systemLanguage == SystemLanguage.Chinese || Application.systemLanguage == SystemLanguage.ChineseSimplified ||
-                   Application.systemLanguage == SystemLanguage.ChineseTraditional)
-            {
-                PlayerPrefsV2.SetInt("lang", 2);
-            }
-            else
-            {
-                PlayerPrefsV2.SetInt("lang", 1);
-            }
-        }
-
-        public void OnLoadComplete()
-        {
-            var current = DateTime.Now;
-            if (last_login_time != current.ToString("yyyy-MM-dd") && current.Hour >= refresh_hr)
-            {
-                last_login_time = DateTime.Now.ToString("yyyy-MM-dd");
-                today_second = 0;
-            }
-            // Protector.instance.BeginCheck(Age, today_second, ResourceManager.instance.SavePlayerData);
         }
     }
 
@@ -244,7 +203,6 @@ namespace Com.A9.DataConsistancy
         {
             io_strategy = new LocalStrategy(out player_data);
             initialized = true;
-            player_data.OnLoadComplete();
             OnTryRemoteSucc?.Invoke();
         }
 
@@ -256,7 +214,6 @@ namespace Com.A9.DataConsistancy
                 player_data = c;
                 initialized = true;
                 Debug.Log("<color=#00FF00FF>Fetch Remote Success</color>");
-                player_data.OnLoadComplete();
                 OnTryRemoteSucc?.Invoke();
             },
             () => { OnTryRemoteFailed?.Invoke(); Debug.LogError("Fetch Remote Failed"); });

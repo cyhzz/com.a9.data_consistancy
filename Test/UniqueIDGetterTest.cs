@@ -12,10 +12,11 @@ namespace Com.A9.DataConsistancy
         public Text txt;
         public UnityEvent OnFetchStart;
         public UnityEvent OnFetchEnd;
+        public string code2open_id_address;
 
         void Start()
         {
-            getter = new UniqueIDGetter();
+            getter = new UniqueIDGetter(false, code2open_id_address);
         }
 
         public void GetUniqueID()
@@ -23,6 +24,7 @@ namespace Com.A9.DataConsistancy
             OnFetchStart?.Invoke();
             getter.GetUniqueID((c) =>
             {
+                Debug.Log($"test shoudl be {c}");
                 txt.text = c;
             }, (c) =>
             {
