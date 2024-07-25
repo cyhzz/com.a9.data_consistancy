@@ -40,7 +40,9 @@ namespace Com.A9.DataConsistancy
                 Debug.LogError("Login info not in playerprefs");
                 return;
             }
+
             Debug.LogError(last.guid);
+
             NetworkManager.instance.SendRequest(load_address, new
             {
                 guid = last.guid,
