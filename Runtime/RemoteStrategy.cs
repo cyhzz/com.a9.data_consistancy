@@ -28,7 +28,7 @@ namespace Com.A9.DataConsistancy
             if (string.IsNullOrEmpty(l))
             {
                 OnFail?.Invoke();
-                Debug.LogError("Login info not in playerprefs");
+                Debug.LogError("LastLogin not in playerprefs");
                 return;
             }
 
@@ -37,11 +37,11 @@ namespace Com.A9.DataConsistancy
             if (string.IsNullOrEmpty(last.guid))
             {
                 OnFail?.Invoke();
-                Debug.LogError("Login info not in playerprefs");
+                Debug.LogError("LastLogin info not in playerprefs");
                 return;
             }
 
-            Debug.LogError(last.guid);
+            Debug.Log($"ResourceManager Sending LastLogin {last.guid} to NetworkManager");
 
             NetworkManager.instance.SendRequest(load_address, new
             {
@@ -99,11 +99,11 @@ namespace Com.A9.DataConsistancy
         {
             NetworkManager.instance.SendRequest(save_address, player_data, false, (json) =>
             {
-                Debug.Log("Save remote data success");
+                Debug.Log("ResourceManager save remote data success");
             },
             () =>
             {
-                Debug.LogError("Save remote data failed");
+                Debug.LogError("ResourceManager save remote data failed");
             });
         }
     }
