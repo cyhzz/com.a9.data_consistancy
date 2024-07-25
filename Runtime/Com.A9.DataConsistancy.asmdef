@@ -1,0 +1,18 @@
+{
+    "name": "Com.A9.DataConsistancy",
+    "rootNamespace": "",
+    "references": [
+        "GUID:285d9a20499e249238ab8c0393c50dfa",
+        "GUID:8a65b104d2cf848c7a5178a1fe80efc4",
+        "GUID:77112220b825f438bbd7a19f736a888d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
