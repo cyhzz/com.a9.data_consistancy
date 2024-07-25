@@ -66,7 +66,10 @@ namespace Com.A9.DataConsistancy
         {
             JObject obj = JObject.Load(reader);
             string guid = (string)obj["guid"];
-            bool initialized = (bool)obj["initialized"];
+
+            bool initialized = false;
+            if (obj["initialized"] != null)
+                initialized = (bool)obj["initialized"];
 
             var item = new PlayerData();
             item.guid = guid;
