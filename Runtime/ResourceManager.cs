@@ -254,6 +254,11 @@ namespace Com.A9.DataConsistancy
             save_requests.Add(new SaveRequest());
         }
 
+        public void DeletePlayerData()
+        {
+            io_strategy.DeletePlayerData();
+        }
+
         public void FetchEntryNoSave<T>(string load_address, object req = null, Action<T> OnSucc = null)
         {
             StartCoroutine(FetchNoSave(load_address, req, OnSucc));
