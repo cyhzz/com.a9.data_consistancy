@@ -6,6 +6,11 @@ namespace Com.A9.DataConsistancy
 
     public class PlayerPrefsV2 : MonoBehaviour
     {
+        public static void DeleteAll()
+        {
+            PlayerPrefs.DeleteAll();
+        }
+
         public static void SetInt(string key, int value)
         {
             PlayerPrefs.SetInt(key, value);
