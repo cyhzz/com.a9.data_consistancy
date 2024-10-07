@@ -137,7 +137,6 @@ namespace Com.A9.DataConsistancy
     public class PlayerData
     {
         public string guid;
-
         public List<DataEntry> data_entries = new List<DataEntry>();
         public bool initialized;
 

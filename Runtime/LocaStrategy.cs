@@ -11,6 +11,7 @@ namespace Com.A9.DataConsistancy
     {
         void FetchEntryExist<T>(DataEntry<T> dt, Action<T> OnSucc = null);
         void SavePlayerData();
+        void DeletePlayerData();
     }
 
     public class LocalStrategy : IOStrategy
@@ -54,6 +55,11 @@ namespace Com.A9.DataConsistancy
             xmlReader.SaveAsJson<PlayerData>("player_data.json", player_data);
             Debug.Log("save local");
         }
-    }
 
+        public void DeletePlayerData()
+        {
+            xmlReader.Delete("player_data.json");
+            Debug.Log("delete local");
+        }
+    }
 }

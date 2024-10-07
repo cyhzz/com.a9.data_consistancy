@@ -106,6 +106,22 @@ namespace Com.A9.DataConsistancy
                 Debug.LogError("ResourceManager save remote data failed");
             });
         }
+
+        public void DeletePlayerData()
+        {
+            NetworkManager.instance.SendRequest(save_address, new
+            {
+                guid = player_data.guid,
+                operation = "delete"
+            }, false, (json) =>
+            {
+                Debug.Log("ResourceManager delete remote data success");
+            },
+            () =>
+            {
+                Debug.LogError("ResourceManager delete remote data failed");
+            });
+        }
     }
 }
 
