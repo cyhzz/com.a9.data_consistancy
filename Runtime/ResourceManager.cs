@@ -118,20 +118,6 @@ namespace Com.A9.DataConsistancy
             this.data = data;
             this.type = data.GetType().FullName;
         }
-
-        public DataEntry(int id, T data, string load_address)
-        {
-            this.id = id;
-            this.data = data;
-            this.type = data.GetType().FullName;
-        }
-
-        public DataEntry(int id, T data, string load_address, string save_address)
-        {
-            this.id = id;
-            this.data = data;
-            this.type = data.GetType().FullName;
-        }
     }
 
     public class PlayerData
