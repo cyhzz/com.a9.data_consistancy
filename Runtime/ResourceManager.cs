@@ -226,10 +226,14 @@ namespace Com.A9.DataConsistancy
 
                 if (fetch_requests.Count > 0)
                 {
-                    foreach (var req in fetch_requests)
+                    for (int i = 0; i < fetch_requests.Count; i++)
                     {
-                        req.Fetch();
+                        fetch_requests[i].Fetch();
                     }
+                    // foreach (var req in fetch_requests)
+                    // {
+                    //     req.Fetch();
+                    // }
                     fetch_requests.Clear();
                 }
             }
