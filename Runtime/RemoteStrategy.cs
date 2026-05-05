@@ -19,6 +19,43 @@ namespace Com.A9.DataConsistancy
         public string save_address;
         public string load_address;
 
+        public RemoteStrategy(string guid, string save_address, string load_address, Action<PlayerData> OnSucc, Action OnFail)
+        {
+            this.save_address = save_address;
+            this.load_address = load_address;
+
+            NetworkManager.instance.SendRequest(load_address, new
+            {
+                guid = guid,
+            },
+            true,
+            (json) =>
+            {
+                if (json == "0")
+                {
+                    OnFail?.Invoke();
+                }
+                else
+                {
+                    var st = new Newtonsoft.Json.JsonSerializerSettings();
+                    st.Converters.Add(new PlayerDataConverter());
+
+                    player_data = Newtonsoft.Json.JsonConvert.DeserializeObject<PlayerData>(json, st);
+                    if (player_data == null)
+                    {
+                        OnFail?.Invoke();
+                        return;
+                    }
+                    OnSucc?.Invoke(player_data);
+                }
+            },
+
+            () =>
+            {
+                OnFail?.Invoke();
+            });
+        }
+
         public RemoteStrategy(string save_address, string load_address, Action<PlayerData> OnSucc, Action OnFail)
         {
             this.save_address = save_address;
