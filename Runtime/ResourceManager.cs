@@ -222,9 +222,10 @@ namespace Com.A9.DataConsistancy
                 OnTryRemoteSucc?.Invoke();
                 OnSucc?.Invoke();
 
-                io_strategy = new LocalStrategy(out player_data);
+                io_strategy = new LocalStrategy(out PlayerData lc);
                 (io_strategy as LocalStrategy).player_data = c;
                 (io_strategy as LocalStrategy).SavePlayerData();
+                player_data = c;
             },
             () =>
             {
