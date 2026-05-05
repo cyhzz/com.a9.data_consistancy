@@ -201,7 +201,7 @@ namespace Com.A9.DataConsistancy
         public void InitLocalMainRemote2()
         {
             io_strategy = new LocalStrategy(out player_data);
-            io_strategy2 = new RemoteStrategy(remote_save, remote_load, (c) =>
+            io_strategy2 = new RemoteStrategy(player_data.guid, remote_save, remote_load, (c) =>
             {
             },
             () => { OnTryRemoteFailed?.Invoke(); Debug.LogError("Fetch Remote Failed"); });
