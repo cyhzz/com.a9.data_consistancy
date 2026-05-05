@@ -211,10 +211,10 @@ namespace Com.A9.DataConsistancy
             OnTryRemoteSucc?.Invoke();
         }
 
-        public void FetchRemoteAndUseLocal(Action OnSucc, Action OnFailed)
+        public void FetchRemoteAndUseLocal(string guid, Action OnSucc, Action OnFailed)
         {
             OnTryRemoteFetch?.Invoke();
-            io_strategy = new RemoteStrategy(remote_save, remote_load, (c) =>
+            io_strategy = new RemoteStrategy(guid, remote_save, remote_load, (c) =>
             {
                 // player_data = c;
                 initialized = true;
