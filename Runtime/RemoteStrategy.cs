@@ -134,6 +134,7 @@ namespace Com.A9.DataConsistancy
 
         public void SavePlayerData()
         {
+            Debug.Log($"ResourceManager saving remote data: {save_address}");
             NetworkManager.instance.SendRequest(save_address, player_data, false, (json) =>
             {
                 Debug.Log("ResourceManager save remote data success");
