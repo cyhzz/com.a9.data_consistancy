@@ -40,6 +40,7 @@ namespace Com.A9.DataConsistancy
 
         public void FetchEntryExist<T>(DataEntry<T> dt, Action<T> OnSucc = null)
         {
+            Debug.Log($"Local FetchEntryExist {dt.id}");
             var m = player_data.data_entries.Find(c => c.id == dt.id) as DataEntry<T>;
             if (m == null)
             {

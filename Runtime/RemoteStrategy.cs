@@ -119,6 +119,7 @@ namespace Com.A9.DataConsistancy
 
         public void FetchEntryExist<T>(DataEntry<T> dt, Action<T> OnSucc = null)
         {
+            Debug.Log($"Remote FetchEntryExist {dt.id}");
             if (player_data.data_entries == null)
                 player_data.data_entries = new List<DataEntry>();
 
