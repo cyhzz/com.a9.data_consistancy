@@ -219,13 +219,14 @@ namespace Com.A9.DataConsistancy
                 // player_data = c;
                 initialized = true;
                 Debug.Log("<color=#00FF00FF>Fetch Remote Success</color>");
-                OnTryRemoteSucc?.Invoke();
-                OnSucc?.Invoke();
 
                 io_strategy = new LocalStrategy(out PlayerData lc);
                 (io_strategy as LocalStrategy).player_data = c;
                 (io_strategy as LocalStrategy).SavePlayerData();
                 player_data = c;
+
+                OnTryRemoteSucc?.Invoke();
+                OnSucc?.Invoke();
             },
             () =>
             {
