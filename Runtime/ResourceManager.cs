@@ -178,6 +178,8 @@ namespace Com.A9.DataConsistancy
     {
         public PlayerData player_data = new PlayerData();
         public IOStrategy io_strategy;
+        public IOStrategy io_strategy2;
+
         public string remote_load;
         public string remote_save;
         public UnityEvent OnTryRemoteFetch;
@@ -194,6 +196,41 @@ namespace Com.A9.DataConsistancy
             io_strategy = new LocalStrategy(out player_data);
             initialized = true;
             OnTryRemoteSucc?.Invoke();
+        }
+
+        public void InitLocalMainRemote2()
+        {
+            io_strategy = new LocalStrategy(out player_data);
+            io_strategy2 = new RemoteStrategy(remote_save, remote_load, (c) =>
+            {
+            },
+            () => { OnTryRemoteFailed?.Invoke(); Debug.LogError("Fetch Remote Failed"); });
+            (io_strategy2 as RemoteStrategy).player_data = player_data;
+
+            initialized = true;
+            OnTryRemoteSucc?.Invoke();
+        }
+
+        public void FetchRemoteAndUseLocal(Action OnSucc, Action OnFailed)
+        {
+            OnTryRemoteFetch?.Invoke();
+            io_strategy = new RemoteStrategy(remote_save, remote_load, (c) =>
+            {
+                // player_data = c;
+                initialized = true;
+                Debug.Log("<color=#00FF00FF>Fetch Remote Success</color>");
+                // OnTryRemoteSucc?.Invoke();
+                OnSucc?.Invoke();
+
+                io_strategy = new LocalStrategy(out player_data);
+                (io_strategy as LocalStrategy).player_data = c;
+                (io_strategy as LocalStrategy).SavePlayerData();
+            },
+            () =>
+            {
+                // OnTryRemoteFailed?.Invoke(); Debug.LogError("Fetch Remote Failed");
+                OnFailed?.Invoke();
+            });
         }
 
         public void InitRemote()
@@ -221,6 +258,10 @@ namespace Com.A9.DataConsistancy
                 if (save_requests.Count > 0)
                 {
                     io_strategy.SavePlayerData();
+                    if (io_strategy2 != null)
+                    {
+                        io_strategy2.SavePlayerData();
+                    }
                     save_requests.Clear();
                 }
 
@@ -230,10 +271,6 @@ namespace Com.A9.DataConsistancy
                     {
                         fetch_requests[i].Fetch();
                     }
-                    // foreach (var req in fetch_requests)
-                    // {
-                    //     req.Fetch();
-                    // }
                     fetch_requests.Clear();
                 }
             }
