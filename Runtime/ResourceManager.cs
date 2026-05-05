@@ -249,6 +249,7 @@ namespace Com.A9.DataConsistancy
 
         public void FetchEntryExist<T>(DataEntry<T> dt, Action<T> OnSucc = null)
         {
+            Debug.Log($"ResourceManager Queue FetchEntryExist {dt.id}");
             fetch_requests.Add(new FetchRequest<T> { dt = dt, OnSucc = OnSucc });
         }
 
