@@ -214,24 +214,24 @@ namespace Com.A9.DataConsistancy
         public void FetchRemoteAndUseLocal(string guid, Action OnSucc, Action OnFailed)
         {
             OnTryRemoteFetch?.Invoke();
-            io_strategy = new RemoteStrategy(guid, remote_save, remote_load, (c) =>
-            {
-                player_data = c;
-                initialized = true;
-                Debug.Log("<color=#00FF00FF>Fetch Remote Success</color>");
+            var k = new RemoteStrategy(guid, remote_save, remote_load, (c) =>
+             {
+                 player_data = c;
+                 initialized = true;
+                 Debug.Log("<color=#00FF00FF>Fetch Remote Success</color>");
 
-                io_strategy = new LocalStrategy(out PlayerData lc);
-                (io_strategy as LocalStrategy).player_data = c;
-                (io_strategy as LocalStrategy).SavePlayerData();
+                 io_strategy = new LocalStrategy(out PlayerData lc);
+                 (io_strategy as LocalStrategy).player_data = c;
+                 (io_strategy as LocalStrategy).SavePlayerData();
 
-                OnTryRemoteSucc?.Invoke();
-                OnSucc?.Invoke();
-            },
-            () =>
-            {
-                // OnTryRemoteFailed?.Invoke(); Debug.LogError("Fetch Remote Failed");
-                OnFailed?.Invoke();
-            });
+                 OnTryRemoteSucc?.Invoke();
+                 OnSucc?.Invoke();
+             },
+             () =>
+             {
+                 // OnTryRemoteFailed?.Invoke(); Debug.LogError("Fetch Remote Failed");
+                 OnFailed?.Invoke();
+             });
         }
 
         public void InitRemote()
